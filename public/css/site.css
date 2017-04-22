@@ -5,22 +5,28 @@
   width: 100%;
   height: 300px;
   overflow: auto;
-  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
-.chatWindow {
+.chatWindow .messages{
   font-size: 1em;
   color: black;
+  margin-bottom: .7em;
 }
-.chatWindow .user {
+.chatWindow .header {
   font-size: 0.8em;
-  color: #777;
+  color: #555;
 }
 
-.name {
+.chatWindow .user .name {
   color: red;
 }
 
-.chatWindow .admin {
-  color: blue;
+.chatWindow .admin .name {
+  color: green;
+}
+
+.chatWindow .admin .body {
+  color: green;
+  font-style: italic;
 }

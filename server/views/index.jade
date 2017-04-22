@@ -3,10 +3,13 @@ extends ../includes/layout
 block main-content
   .container
     h3 Welcome to the chat app
+    
+    .chatWindow#chatWindow
+    
     .form.form-horizontal
       .form-group
         .col-md-2
-          label.control-label(for="from") From
+          label.control-label(for="from") Name
         .col-md-10
           input.form-control(id="from")
       .form-group
@@ -15,8 +18,5 @@ block main-content
         .col-md-10
           textarea.form-control(id="text")
       .form-group
-        .col-md-10.col-md-offset-2
-          .pull-right
-            button.btn.btn-primary(onclick="sendMessage()") Send
-
-    .chatWindow#chatWindow
+        .col-md-12.text-center
+          button.btn.btn-primary.btn-lg.btn-block(onclick="sendMessage()") Send

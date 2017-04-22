@@ -9,10 +9,19 @@ socket.on('disconnect', function () {
 });
 
 socket.on('newMessage', function (message) {
-  $("#chatWindow")
-    .append("<div class='user'><span class='name'>" + message.from + "</span> at " + new Date(message.createdAt) + "</div>")
-    .append("<div class='message'>" + message.text + "</div>");
+  var wrapperClassName = (message.from === 'Admin') ? 'admin' : 'user'
 
+  $("#chatWindow")
+    .append(
+      $('<div />').addClass(wrapperClassName + ' messages').append(
+        $('<div />', {'class': 'header'}).append(
+          $('<span />', {'class': 'name'}).append(message.from),
+          ' at ' + new Date(message.createdAt)
+        ),
+        $('<div />', {'class': 'body'}).append(message.text)
+      )
+    );
+    
   $("#chatWindow").scrollTop($("#chatWindow")[0].scrollHeight);
 });
 

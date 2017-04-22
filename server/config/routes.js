@@ -6,7 +6,7 @@ module.exports = (app) => {
     res.render(publicPath + req.params[0]);
   });
 
-  app.get('*', (req, res) => {
+  app.get('/', (req, res) => {
     res.render('index');
   });
 };
