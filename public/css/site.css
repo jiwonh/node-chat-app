@@ -20,3 +20,7 @@
 .name {
   color: red;
 }
+
+.chatWindow .admin {
+  color: blue;
+}
