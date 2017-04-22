@@ -1,0 +1,22 @@
+extends ../includes/layout
+
+block main-content
+  .container
+    h3 Welcome to the chat app
+    .form.form-horizontal
+      .form-group
+        .col-md-2
+          label.control-label(for="from") From
+        .col-md-10
+          input.form-control(id="from")
+      .form-group
+        .col-md-2
+          label.control-label(for="text") Message
+        .col-md-10
+          textarea.form-control(id="text")
+      .form-group
+        .col-md-10.col-md-offset-2
+          .pull-right
+            button.btn.btn-primary(onclick="sendMessage()") Send
+
+    .chatWindow#chatWindow

@@ -1,0 +1,22 @@
+.chatWindow {
+  border: 1px solid #555;
+  background-color: ghostwhite;
+  padding: 1em;
+  width: 100%;
+  height: 300px;
+  overflow: auto;
+  margin-top: 1em;
+}
+
+.chatWindow {
+  font-size: 1em;
+  color: black;
+}
+.chatWindow .user {
+  font-size: 0.8em;
+  color: #777;
+}
+
+.name {
+  color: red;
+}

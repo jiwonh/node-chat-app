@@ -1,0 +1,20 @@
+{
+  "name": "node-chat-app",
+  "description": "",
+  "main": "server/server.js",
+  "authors": [
+    "jiwon <jiwonh@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/jiwonh/node-chat-app",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1"
+  }
+}
