@@ -4,19 +4,19 @@ block main-content
   .container
     h3 Welcome to the chat app
     
-    .chatWindow#chatWindow
+    ol#chatWindow
     
-    .form.form-horizontal
+    form.form.form-horizontal(id="chatForm")
       .form-group
         .col-md-2
           label.control-label(for="from") Name
         .col-md-10
-          input.form-control(id="from")
+          input.form-control(id="from", placeholder="Enter your name")
       .form-group
         .col-md-2
           label.control-label(for="text") Message
         .col-md-10
-          textarea.form-control(id="text")
+          textarea.form-control(id="text", placeholder="Enter message")
       .form-group
         .col-md-12.text-center
-          button.btn.btn-primary.btn-lg.btn-block(onclick="sendMessage()") Send
+          button.btn.btn-primary.btn-lg.btn-block Send

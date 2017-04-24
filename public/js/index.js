@@ -10,22 +10,25 @@ socket.on('disconnect', function () {
 
 socket.on('newMessage', function (message) {
   var wrapperClassName = (message.from === 'Admin') ? 'admin' : 'user'
+  var chatWindow = $("#chatWindow");
 
-  $("#chatWindow")
+  chatWindow
     .append(
-      $('<div />').addClass(wrapperClassName + ' messages').append(
+      $('<li />').addClass(wrapperClassName + ' messages').append(
         $('<div />', {'class': 'header'}).append(
-          $('<span />', {'class': 'name'}).append(message.from),
+          $('<span />', {'class': 'name'}).text(message.from),
           ' at ' + new Date(message.createdAt)
         ),
-        $('<div />', {'class': 'body'}).append(message.text)
+        $('<div />', {'class': 'body'}).text(message.text)
       )
     );
-    
-  $("#chatWindow").scrollTop($("#chatWindow")[0].scrollHeight);
+
+  chatWindow.scrollTop(chatWindow[0].scrollHeight);
 });
 
-function sendMessage (message) {
+$("#chatForm").on('submit', function (e) {
+  e.preventDefault();
+
   var from = $("#from").val();
   var text = $("#text").val();
 
@@ -33,8 +36,9 @@ function sendMessage (message) {
     socket.emit('createMessage', {
       from: from,
       text: text
+    }, function (res) {
+      $("#text").val("");
+      console.log(res);
     });
-
-    $("#text").val("");
   }
-};
+});
