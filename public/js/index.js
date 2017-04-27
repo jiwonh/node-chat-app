@@ -26,6 +26,16 @@ socket.on('newMessage', function (message) {
   chatWindow.scrollTop(chatWindow[0].scrollHeight);
 });
 
+socket.on('newLocationMessage', function (message) {
+  var li = $('<li />');
+  var a = $('<a target="_blank">My current location</a>');
+
+  a.attr('href', message.url);
+  li.text(message.from + ': ');
+  li.append(a);
+  $("#chatWindow").append(li);
+});
+
 $("#chatForm").on('submit', function (e) {
   e.preventDefault();
 
@@ -41,4 +51,28 @@ $("#chatForm").on('submit', function (e) {
       console.log(res);
     });
   }
+});
+
+var locationButton = $('#send-location');
+
+locationButton.on('click', function (e) {
+  e.preventDefault();
+
+  if (!navigator.geolocation) {
+    return alert('Your browser not supported geo location service.');
+  }
+
+  var from = $("#from").val();
+
+  navigator.geolocation.getCurrentPosition(function (position) {
+    if (from) {
+      socket.emit('createLocationMessage', {
+        from: from,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
+    }
+  }, function (err) {
+    alert('Unable to fetch location.');
+  });
 });
