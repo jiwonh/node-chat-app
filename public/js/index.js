@@ -9,70 +9,63 @@ socket.on('disconnect', function () {
 });
 
 socket.on('newMessage', function (message) {
-  var wrapperClassName = (message.from === 'Admin') ? 'admin' : 'user'
-  var chatWindow = $("#chatWindow");
-
-  chatWindow
-    .append(
-      $('<li />').addClass(wrapperClassName + ' messages').append(
-        $('<div />', {'class': 'header'}).append(
-          $('<span />', {'class': 'name'}).text(message.from),
-          ' at ' + new Date(message.createdAt)
-        ),
-        $('<div />', {'class': 'body'}).text(message.text)
-      )
-    );
-
-  chatWindow.scrollTop(chatWindow[0].scrollHeight);
+  var userType = (message.from === 'Admin') ? 'admin' : 'user'
+  var messages = $("#messages");
+  var li = $('<li/>').addClass(userType);
+  var messageHeader = $('<div class="message-header"/>').text(new Date(message.createdAt));
+  var messageBody = $('<div/>').addClass('message-body').append(
+    $('<span/>').addClass('user-name').text(message.from + ': '),
+    message.text
+  );
+  li.append(messageBody);
+  messages.append(li);
+  messages.scrollTop(messages[0].scrollHeight);
 });
 
 socket.on('newLocationMessage', function (message) {
-  var li = $('<li />');
+  var li = $('<li/>');
   var a = $('<a target="_blank">My current location</a>');
 
   a.attr('href', message.url);
-  li.text(message.from + ': ');
+  li.append('<span class="user-name">' + message.from + '</span>: ');
   li.append(a);
-  $("#chatWindow").append(li);
+  $("#messages").append(li);
 });
 
-$("#chatForm").on('submit', function (e) {
+$("#message-form").on('submit', function (e) {
   e.preventDefault();
 
-  var from = $("#from").val();
-  var text = $("#text").val();
+  var messageTextBox = $('#message');
 
-  if (from && text) {
+  if (messageTextBox.val()) {
     socket.emit('createMessage', {
-      from: from,
-      text: text
+      from: 'User',
+      text: messageTextBox.val()
     }, function (res) {
-      $("#text").val("");
       console.log(res);
+      messageTextBox.val('');
     });
   }
 });
 
 var locationButton = $('#send-location');
 
-locationButton.on('click', function (e) {
-  e.preventDefault();
-
+locationButton.on('click', function () {
   if (!navigator.geolocation) {
     return alert('Your browser not supported geo location service.');
   }
 
-  var from = $("#from").val();
+  locationButton.attr('disabled', 'disabled').text('Sending location...');
 
   navigator.geolocation.getCurrentPosition(function (position) {
-    if (from) {
-      socket.emit('createLocationMessage', {
-        from: from,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      });
-    }
+    locationButton.removeAttr('disabled').text('Send Location');
+    socket.emit('createLocationMessage', {
+      from: 'User',
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    });
   }, function (err) {
-    alert('Unable to fetch location.');
+    locationButton.removeAttr('disabled');
+    alert('Unable to fetch location.').text('Send Location');
   });
 });

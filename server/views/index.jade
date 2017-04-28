@@ -1,25 +1,14 @@
 extends ../includes/layout
 
 block main-content
-  .container
-    h3 Welcome to the chat app
-    
-    ol#chatWindow
-    
-    form.form.form-horizontal(id="chatForm")
-      .form-group
-        .col-md-2
-          label.control-label(for="from") Name
-        .col-md-10
-          input.form-control(id="from", placeholder="Enter your name")
-      .form-group
-        .col-md-2
-          label.control-label(for="text") Message
-        .col-md-10
-          textarea.form-control(id="text", placeholder="Enter message")
-      .form-group
-        .col-md-12
-          button.btn.btn-primary.btn-lg.btn-block Send
-      .form-group
-        .col-md-12
-          button.btn.btn-default.btn-lg.btn-block(id="send-location") Send Location
+  .chat
+    .chat__sidebar
+      h1 People
+      ul.chat__users
+    .chat__main
+        ol#messages.chat__messages
+        .chat__footer
+          form(id="message-form")
+            input(id="message", placeholder="Message" autofocus autocomplete="off")
+            button Send
+          button(id="send-location") Send Location
