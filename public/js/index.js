@@ -1,5 +1,22 @@
 var socket = io();
 
+var addChatMessage = function (from, createdAt, text) {
+  var formattedTime = moment(createdAt).format('MMM Do YYYY h:mm:ss a');
+  var userType = (from === 'Admin') ? 'admin' : 'user';
+  var messages = $("#messages");
+  var li = $('<li/>').addClass(userType);
+  var messageHeader = $('<div class="message-header"/>').text(formattedTime);
+  var messageBody = $('<div/>').addClass('message-body').append(
+    $('<span/>').addClass('user-name').text(from + ': '),
+    text
+  );
+
+  li.append(messageHeader, messageBody);
+  messages.append(li);
+  messages.scrollTop(messages[0].scrollHeight);
+  $('#message').focus();
+};
+
 socket.on('connect', function () {
   console.log('Connected to server.');
 });
@@ -9,27 +26,12 @@ socket.on('disconnect', function () {
 });
 
 socket.on('newMessage', function (message) {
-  var userType = (message.from === 'Admin') ? 'admin' : 'user'
-  var messages = $("#messages");
-  var li = $('<li/>').addClass(userType);
-  var messageHeader = $('<div class="message-header"/>').text(new Date(message.createdAt));
-  var messageBody = $('<div/>').addClass('message-body').append(
-    $('<span/>').addClass('user-name').text(message.from + ': '),
-    message.text
-  );
-  li.append(messageBody);
-  messages.append(li);
-  messages.scrollTop(messages[0].scrollHeight);
+  addChatMessage(message.from, message.createdAt, message.text);
 });
 
 socket.on('newLocationMessage', function (message) {
-  var li = $('<li/>');
-  var a = $('<a target="_blank">My current location</a>');
-
-  a.attr('href', message.url);
-  li.append('<span class="user-name">' + message.from + '</span>: ');
-  li.append(a);
-  $("#messages").append(li);
+  var text = '<a href="' + message.url + '" target="_blank">My current location</a>';
+  addChatMessage(message.from, message.createdAt, text);
 });
 
 $("#message-form").on('submit', function (e) {
@@ -42,7 +44,7 @@ $("#message-form").on('submit', function (e) {
       from: 'User',
       text: messageTextBox.val()
     }, function (res) {
-      console.log(res);
+      //console.log(res);
       messageTextBox.val('');
     });
   }
@@ -65,7 +67,7 @@ locationButton.on('click', function () {
       longitude: position.coords.longitude
     });
   }, function (err) {
-    locationButton.removeAttr('disabled');
-    alert('Unable to fetch location.').text('Send Location');
+    locationButton.removeAttr('disabled').text('Send Location');
+    alert('Unable to fetch location.');
   });
 });
