@@ -1,6 +1,24 @@
 var socket = io();
 
+var scrollToBottom = function () {
+  // Selectors
+  var messages = $('#messages');
+  var newMessage = messages.children('li:last-child');
+  // Heights
+  var scrollTop = messages.prop('scrollTop');
+  var clientHeight = messages.prop('clientHeight');
+  var scrollHeight = messages.prop('scrollHeight');
+  var newMessageHeight = newMessage.innerHeight();
+  var lastMessageHeight = newMessage.prev().innerHeight();
+
+  // avoid to scroll to bottom when user reading old messages.
+  if (scrollTop + clientHeight + newMessageHeight + lastMessageHeight >= scrollHeight) {
+    messages.scrollTop(scrollHeight);
+  }
+};
+
 var addChatMessage = function (from, createdAt, html) {
+  var messages = $("#messages");
   var formattedTime = moment(createdAt).format('MMM Do YYYY h:mm:ss a');
   var template = $('#message-template').html();
   var html = Mustache.render(template, {
@@ -8,10 +26,9 @@ var addChatMessage = function (from, createdAt, html) {
     createdAt: formattedTime,
     text: html
   });
-  var messages = $("#messages");
 
   messages.append(html);
-  messages.scrollTop(messages[0].scrollHeight);
+  scrollToBottom();
   $('#text-box').focus();
 };
 
