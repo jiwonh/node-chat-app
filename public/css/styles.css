@@ -1,5 +1,5 @@
 html {
-  font-size: 90%;
+  font-size: 100%;
 }
 .chat {
   display: flex;
@@ -8,12 +8,13 @@ html {
 
 /* chat__sidebar */
 .chat__sidebar {
-  min-width:250px;
+  min-width: 15rem;
   height: 100vh;
   background: linear-gradient(325deg, rgba(39, 107, 130, 1) 0%, rgba(49, 84, 129, 1) 100%);
 }
 
 .chat__sidebar h1 {
+  font-size: 2.5rem;
   color: #fff;
   margin: .5em;
   font-weight: bold;
@@ -33,7 +34,6 @@ html {
   flex-grow: 1;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  font-size: 1.2rem;
   color: #222;
   list-style: none;
   padding: .8rem;
@@ -43,14 +43,19 @@ html {
   padding: .4rem;
 }
 
-.chat__messages .message-header {
-  font-size: .8rem;
-  font-style: italic;
+.message__header {
+  font-size: 1rem;
   color: #777;
 }
 
-.chat__messages .user-name {
-  color: #265f82;
+.message__body p {
+  font-size: 1.2rem;
+  margin-top: .2rem;
+}
+
+.message__user {
+  color: #000;
+  font-weight: bold;
 }
 
 .chat__messages a:link {

@@ -1,20 +1,18 @@
 var socket = io();
 
-var addChatMessage = function (from, createdAt, text) {
+var addChatMessage = function (from, createdAt, html) {
   var formattedTime = moment(createdAt).format('MMM Do YYYY h:mm:ss a');
-  var userType = (from === 'Admin') ? 'admin' : 'user';
+  var template = $('#message-template').html();
+  var html = Mustache.render(template, {
+    from: from,
+    createdAt: formattedTime,
+    text: html
+  });
   var messages = $("#messages");
-  var li = $('<li/>').addClass(userType);
-  var messageHeader = $('<div class="message-header"/>').text(formattedTime);
-  var messageBody = $('<div/>').addClass('message-body').append(
-    $('<span/>').addClass('user-name').text(from + ': '),
-    text
-  );
 
-  li.append(messageHeader, messageBody);
-  messages.append(li);
+  messages.append(html);
   messages.scrollTop(messages[0].scrollHeight);
-  $('#message').focus();
+  $('#text-box').focus();
 };
 
 socket.on('connect', function () {
@@ -30,14 +28,14 @@ socket.on('newMessage', function (message) {
 });
 
 socket.on('newLocationMessage', function (message) {
-  var text = '<a href="' + message.url + '" target="_blank">My current location</a>';
-  addChatMessage(message.from, message.createdAt, text);
+  var text = $('<a target="_blank" />').attr('href', message.url).text('My current Location');
+  addChatMessage(message.from, message.createdAt, text.prop('outerHTML'));
 });
 
 $("#message-form").on('submit', function (e) {
   e.preventDefault();
 
-  var messageTextBox = $('#message');
+  var messageTextBox = $('#text-box');
 
   if (messageTextBox.val()) {
     socket.emit('createMessage', {
