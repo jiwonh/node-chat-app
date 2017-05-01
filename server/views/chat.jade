@@ -1,0 +1,16 @@
+extends ../includes/layout
+
+block main-content
+  .chat
+    .chat__sidebar
+      h1 People
+      #users
+    .chat__main
+        ol#messages.chat__messages
+        .chat__footer
+          form(id="message-form")
+            input(id="text-box", placeholder="Message" autofocus autocomplete="off")
+            button Send
+          button(id="send-location") Send Location
+          
+  include ../includes/scripts

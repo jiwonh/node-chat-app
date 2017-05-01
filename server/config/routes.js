@@ -7,6 +7,14 @@ module.exports = (app) => {
   });
 
   app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', {
+      title: 'Join | Chat App'
+    });
+  });
+
+  app.get('/chat', (req, res) => {
+    res.render('chat', {
+      title: 'Chat | Chat App'
+    });
   });
 };

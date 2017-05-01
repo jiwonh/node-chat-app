@@ -1,13 +1,14 @@
 script(id="message-template" type="text/template")
-  li(class="message")
+  li(class="message {{#isAdmin}}admin{{/isAdmin}}")
     div(class="message__header")
       span(class="message__user") {{from}} 
-      {{createdAt}}
+      span {{createdAt}}
     div(class="message__body")
       p {{{text}}}
       
 script(src="/vendor/moment/min/moment.min.js" type="text/javascript")
 script(src="/vendor/mustache.js/mustache.js" type="text/javascript")
 script(src="/vendor/jquery/dist/jquery.min.js" type="text/javascript")
+script(src="/js/lib/deparam.js" type="text/javascript")
 script(src="/socket.io/socket.io.js" type="text/javascript")
-script(src="/js/index.js" type="text/javascript")
+script(src="/js/chat.js" type="text/javascript")

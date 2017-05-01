@@ -1,14 +1,17 @@
 extends ../includes/layout
 
 block main-content
-  .chat
-    .chat__sidebar
-      h1 People
-      ul.chat__users
-    .chat__main
-        ol#messages.chat__messages
-        .chat__footer
-          form(id="message-form")
-            input(id="text-box", placeholder="Message" autofocus autocomplete="off")
-            button Send
-          button(id="send-location") Send Location
+  .centered-form
+    .centered-from__form
+      form(action="/chat")
+        .form-group
+          h1.text-center Join a Chat
+        .form-group
+          label.control-label(for="name") Display Name
+          input.form-control(id="name" name="name" autofocus required)
+        .form-group
+          label.control-label(for="name") Room Name
+          input.form-control(id="room" name="room" required)          
+        .form-group
+          button.btn.btn-primary.btn-block Join
+    
