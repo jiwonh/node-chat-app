@@ -73,15 +73,12 @@ $("#message-form").on('submit', function (e) {
 
   var messageTextBox = $('#text-box');
 
-  if (messageTextBox.val()) {
-    socket.emit('createMessage', {
-      from: params.name,
-      text: messageTextBox.val()
-    }, function (res) {
-      //console.log(res);
-      messageTextBox.val('');
-    });
-  }
+  socket.emit('createMessage', {
+    text: messageTextBox.val()
+  }, function (res) {
+    messageTextBox.val('');
+  });
+
 });
 
 var locationButton = $('#send-location');
@@ -96,7 +93,6 @@ locationButton.on('click', function () {
   navigator.geolocation.getCurrentPosition(function (position) {
     locationButton.removeAttr('disabled').text('Send Location');
     socket.emit('createLocationMessage', {
-      from: params.name,
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
     });
