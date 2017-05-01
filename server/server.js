@@ -12,13 +12,17 @@ var io = socketIO(server);
 var users = new Users();
 
 require('./config/express')(app);
-require('./config/routes')(app);
+require('./config/routes')(app, users);
 
 io.on('connection', (socket) => {
 
   socket.on('join', (params, callback) => {
+    params.room = params.room.toLowerCase();
+
     if (!isRealString(params.name) || !isRealString(params.room)) {
       return callback('Display name and room name is required.');
+    } else if (users.isUserNameTaken(params.name, params.room)) {
+      return callback('Display name already taken.');
     }
 
     console.log(`${params.name} has joined to ${params.room}.`);
@@ -66,9 +70,9 @@ io.on('connection', (socket) => {
     if (user) {
       io.to(user.room).emit('updateUserList', users.getUserList(user.room));
       io.to(user.room).emit('newMessage', generateMessage('Admin', `${user.name} has left.`));
-    }
 
-    console.log(`${user.name} has left from ${user.room}.`);
+      console.log(`${user.name} has left from ${user.room}.`);
+    }
   });
 });
 

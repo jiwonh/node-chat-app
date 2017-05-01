@@ -3,15 +3,25 @@ extends ../includes/layout
 block main-content
   .centered-form
     .centered-from__form
-      form(action="/chat")
+      form(action="/chat" name="joinForm")
         .form-group
-          h1.text-center Join a Chat
+          h1 Join a Chat
         .form-group
           label.control-label(for="name") Display Name
-          input.form-control(id="name" name="name" autofocus required)
+          input.form-control(id="name" name="name" autofocus)
+        fieldset
+          legend Chat Room
+          .form-group
+            label.control-label(for="room") Create a new room
+            input.form-control(id="room" name="room")
+          .form-group
+            label.control-label(for="existRoom") Join to exist room
+            select.form-control(id="existRoom" name="room")
+              option(value="")
+              - each room in rooms
+                option(value=room) #{room}
         .form-group
-          label.control-label(for="name") Room Name
-          input.form-control(id="room" name="room" required)          
-        .form-group
-          button.btn.btn-primary.btn-block Join
-    
+          button.btn.btn-primary.btn-block.btn-lg Join
+          
+  script(src="/vendor/jquery/dist/jquery.min.js" type="text/javascript")        
+  script(src="js/index.js", type="text/javascript")

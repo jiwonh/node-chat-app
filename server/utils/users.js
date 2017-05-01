@@ -30,6 +30,24 @@ class Users {
 
     return namesArray;
   }
+
+  getRoomList () {
+    var roomsArray = this.users.map((user) => user.room);
+    var uniqueRooms = roomsArray.filter((room, index, self) => {
+      return self.indexOf(room) === index;
+    });
+
+    return uniqueRooms;
+  }
+
+  isUserNameTaken (name, room) {
+    var user = this.users.find((user) => user.name.toLowerCase() === name.toLocaleLowerCase() && user.room === room);
+
+    if (user) {
+      return true;
+    }
+    return false;
+  }
 }
 
 module.exports = {Users};

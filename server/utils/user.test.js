@@ -74,4 +74,28 @@ describe('Users', () => {
     expect(removedUser).toNotExist();
     expect(users.users.length).toBe(3);
   });
+
+  it('should return true if name already taken in room', () => {
+    var result = users.isUserNameTaken('Jane', 'Node Course');
+
+    expect(result).toBe(true);
+  });
+
+  it('should return false if name not taken in room', () => {
+    var result = users.isUserNameTaken('New User', 'Node Course');
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false if name already taken but not same room', () => {
+    var result = users.isUserNameTaken('Jane', 'New Room');
+    
+    expect(result).toBe(false);
+  });
+
+  it('should return unique rooms', () => {
+    var uniqueRooms = users.getRoomList();
+
+    expect(uniqueRooms.length).toBe(2);
+  });
 });
